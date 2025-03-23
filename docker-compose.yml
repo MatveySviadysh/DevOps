@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  nginx-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - fastapi-server
+    restart: always 
+
+  redis-server:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+    restart: always
+  
+  fastapi-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:8000"
+    restart: always
