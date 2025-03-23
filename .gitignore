@@ -17,4 +17,3 @@ Dockerfile.fastapi
 *.swp
 *.swo
 *.log
-.github/
