@@ -21,6 +21,7 @@ pydantic
 pydantic_core
 pytest
 PyYAML
+redis
 sniffio
 starlette
 typing_extensions
