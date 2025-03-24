@@ -37,6 +37,16 @@ services:
     networks:
       - my_network
 
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: always
+    networks:
+      - my_network
+
 networks:
   my_network:
     driver: bridge
