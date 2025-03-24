@@ -14,3 +14,13 @@ kubectl get services
 kubectl delete -f nginx-server.yaml
 
 kubectl port-forward pod/nginx-server-96b9d695-g8fmm 8080:80
+
+
+
+# monitoring
+docker-compose -f docker-compose.override.yml up -d
+
+
+# jenkins
+
+#helm
