@@ -2,6 +2,7 @@
 docker-compose up --build
 docker-compose down
 docker build -t m-project .
+docker exec -it devops-nginx-server-1 sh
 
 # Kubernetes
 kubectl get deployments
