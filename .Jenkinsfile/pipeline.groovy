@@ -10,8 +10,7 @@ pipeline {
         stage('Set up Python') {
             steps {
                 script {
-                    sh 'python -m pip install --upgrade pip'
-                    sh 'pip install -r requirements.txt'
+                    sh './scripts/set-up-python.sh'
                 }
             }
         }
@@ -19,6 +18,13 @@ pipeline {
             steps {
                 script {
                     sh 'python -m unittest discover -s app/tests'
+                }
+            }
+        }
+        stages('Deploy') {
+            steps {
+                script {
+                    sh 'docker-compose up -d'
                 }
             }
         }
