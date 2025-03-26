@@ -1,13 +1,16 @@
-input {
-  file {
-    path => "/var/log/myapp/*.log"
-    start_position => "beginning"
-  }
-}
+import logging
+import os
 
-output {
-  elasticsearch {
-    hosts => ["http://localhost:9200"]
-    index => "myapp-logs-%{+YYYY.MM.dd}"
-  }
-}
+LOG_DIR = "/var/log/myapp"
+os.makedirs(LOG_DIR, exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(f"{LOG_DIR}/app.log"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger(__name__)
