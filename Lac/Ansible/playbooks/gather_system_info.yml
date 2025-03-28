@@ -1,0 +1,19 @@
+---
+- name: Gather system information
+  hosts: all
+  tasks:
+    - name: Gather OS information
+      command: uname -a
+      register: os_info
+
+    - name: Show OS info
+      debug:
+        msg: "{{ os_info.stdout }}"
+
+    - name: Gather memory information
+      command: free -h
+      register: memory_info
+
+    - name: Show memory info
+      debug:
+        msg: "{{ memory_info.stdout }}"
