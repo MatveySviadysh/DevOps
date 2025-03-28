@@ -1,0 +1,9 @@
+# ---
+# - name: Deploy configuration to web servers
+#   hosts: webservers
+#   become: yes
+#   tasks:
+#     - name: Install nginx
+#       apt:
+#         name: nginx
+#         state: present
