@@ -22,10 +22,6 @@ jobs:
       - name: Run tests
         run: |
           python -m unittest discover -s app/tests
-      
-      - name: Load environment variables
-        run: |
-          cat .env.ci >> $GITHUB_ENV
   
       - name: Log in to DockerHub
         run: |
