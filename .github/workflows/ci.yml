@@ -37,17 +37,19 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version  # Проверка версии Docker Compose
 
-      - name: Build and push Docker image
+      - name: Build Docker image with Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml build
+          
+      - name: Push Docker image to DockerHub
         run: |
           IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}"
-          docker pull $IMAGE_NAME || true
-          docker build --pull --no-cache -t $IMAGE_NAME .
-          docker push $IMAGE_NAME
-  
-      - name: Run Docker Compose
+          docker-compose -f docker-compose.yml push  # Пушим образ в DockerHub
+
+      - name: Run Docker Compose (detached)
         run: |
-          docker-compose up --build -d
+          docker-compose -f docker-compose.yml up --build -d
         
       - name: Clean up containers
         run: |
-          docker-compose down
+          docker-compose down  # Останавливаем и удаляем контейнеры
