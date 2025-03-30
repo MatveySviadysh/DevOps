@@ -29,7 +29,7 @@ jobs:
   
       - name: Log in to DockerHub
         run: |
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Install Docker Compose
         run: |
@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          IMAGE_NAME="$DOCKER_USERNAME/$DOCKER_IMAGE"
+          IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}"
           docker pull $IMAGE_NAME || true
           docker build --pull --no-cache -t $IMAGE_NAME .
           docker push $IMAGE_NAME
