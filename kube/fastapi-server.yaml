@@ -1,37 +1,71 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fastapi-server
+  name: fastapi-server-1
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: fastapi
+      app: fastapi-server-1
   template:
     metadata:
       labels:
-        app: fastapi
+        app: fastapi-server-1
     spec:
       containers:
-      - name: fastapi
-        image: matveysviadysh/devops-fastapi-server:latest
-        ports:
-        - containerPort: 8000
-        volumeMounts:
-        - name: app-storage
-          mountPath: /app
-      volumes:
-      - name: app-storage
-        emptyDir: {}
+        - name: fastapi-server-1
+          image: matveysviadysh/devops-fastapi1:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: REDIS_HOST
+              value: "redis-server-1"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: fastapi-server
+  name: fastapi-server-1
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8000
-    targetPort: 8000
   selector:
-    app: fastapi
+    app: fastapi-server-1
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-server-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastapi-server-2
+  template:
+    metadata:
+      labels:
+        app: fastapi-server-2
+    spec:
+      containers:
+        - name: fastapi-server-2
+          image: matveysviadysh/devops-fastapi2:latest
+          ports:
+            - containerPort: 8001
+          env:
+            - name: REDIS_HOST
+              value: "redis-server-2"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-server-2
+spec:
+  selector:
+    app: fastapi-server-2
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+  type: ClusterIP
