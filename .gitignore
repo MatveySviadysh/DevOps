@@ -17,3 +17,6 @@ Dockerfile.fastapi
 *.swp
 *.swo
 *.log
+
+.env
+.env.ci
