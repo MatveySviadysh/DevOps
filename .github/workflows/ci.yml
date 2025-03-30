@@ -26,7 +26,7 @@ jobs:
       - name: Run tests
         run: |
           python -m unittest discover -s app/tests
-  
+
       - name: Log in to DockerHub
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -36,39 +36,38 @@ jobs:
           # Install Docker
           sudo apt-get update
           sudo apt-get install -y docker.io
-          
+
           # Install Docker Compose (official GitHub Action)
-          curl -sSL https://get.docker.com | sh
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version  # Проверка версии Docker Compose
+          docker-compose --version  # Check Docker Compose version
 
       - name: Build Docker image with Docker Compose
         run: |
           echo "Building Docker image..."
           docker-compose -f docker-compose.yml build
-          docker images  # Проверка списка собранных образов
+          docker images  # Check the list of built images
 
       - name: Push Docker image to DockerHub
         run: |
           IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}"
           echo "Pushing Docker image to DockerHub: $IMAGE_NAME"
           docker-compose -f docker-compose.yml push
-          docker images  # Проверка списка образов перед пушем
-    
+          docker images  # Check the list of images before push
+
       - name: Run Docker Compose (detached)
         run: |
           echo "Starting containers..."
           docker-compose -f docker-compose.yml up --build -d
-          # Проверка запущенных контейнеров
+          # Check the list of running containers
           docker ps
-    
+
       - name: Wait for containers to be ready
         run: |
           echo "Waiting for containers to be fully up and running..."
-          sleep 30  # Ожидание 30 секунд, можно адаптировать под ваши контейнеры
-    
+          sleep 30  # Wait 30 seconds, adjust as necessary for your containers
+
       - name: Clean up containers
         run: |
           echo "Shutting down containers..."
-          docker-compose down  # Останавливаем и удаляем контейнеры
+          docker-compose down  # Stop and remove containers
