@@ -22,19 +22,22 @@ jobs:
       - name: Run tests
         run: |
           python -m unittest discover -s app/tests
-  
+
+      - name: Load environment variables
+        run: |
+          cat .env >> $GITHUB_ENV
+
       - name: Log in to DockerHub
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  
+
       - name: Build and push Docker image
         run: |
           IMAGE_NAME="$DOCKER_USERNAME/$DOCKER_IMAGE"
           docker pull $IMAGE_NAME || true
           docker build --pull --no-cache -t $IMAGE_NAME .
           docker push $IMAGE_NAME
-  
+
       - name: Run Docker Compose
         run: |
-          docker-compose up --build -d
-        
+          docker-compose --env-file .env -f docker-compose.yml up -d
