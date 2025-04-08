@@ -17,6 +17,16 @@ kubectl port-forward pod/nginx-server-96b9d695-g8fmm 8080:80
 kubectl config use-context <your-context>
 kubectl apply -f kube/
 
+# monitoring
+kubectl create configmap logstash-config --from-file=logstash.conf --namespace=kube-system
+kubectl apply -f filebeat-daemonset.yaml
+kubectl apply -f logstash-deployment.yaml
+kubectl apply -f elasticsearch-statefulset.yaml
+kubectl apply -f kibana-deployment.yaml
+kubectl get all -n kube-system
+
+
+
 # Monitoring
 docker-compose -f docker-compose.override.yml up -d
 
