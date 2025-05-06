@@ -20,3 +20,4 @@ Dockerfile.fastapi
 
 .env
 .env.ci.terraform/
+.terraform/
