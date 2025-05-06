@@ -10,7 +10,6 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow outbound traffic on port 5432 to the RDS instance
   egress {
     from_port   = 0
     to_port     = 0
@@ -18,12 +17,11 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow egress to the RDS instance on port 5432
   egress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Or restrict to specific IP
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -39,12 +37,11 @@ resource "aws_security_group" "private_sg" {
     security_groups = [aws_security_group.bastion_sg.id]
   }
 
-  # Allow ingress to port 5432 (PostgreSQL) from any source (or restrict to specific IP)
   ingress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Or restrict to your local IP address
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
