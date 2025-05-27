@@ -1,0 +1,32 @@
+Колличество унникальных строк:
+28
+отсортированный файл:
+a
+asda
+b
+bdfg
+c
+cwerwf
+d
+dfgdfg
+dfwdwfwef
+e
+eergf
+erg
+etrh
+f
+fchyjfh
+fwefdsfg
+g
+grgfdg
+jdsfk
+jnsdf
+my_word
+my_word
+safrth
+sdfgh
+sdfjn
+sdfverbg
+wer
+word
+123

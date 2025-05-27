@@ -1,0 +1,28 @@
+---
+- name: Копирование файлов на инстанс
+  hosts: myserver
+  become: false  # если нужно sudo, поставь true
+  tasks:
+    - name: Копировать файлы на инстанс
+      copy:
+        src: "{{ item }}"
+        dest: "/home/username/{{ item | basename }}"
+        mode: '0644'
+      loop:
+        - files/myfile1.txt
+        - files/script.sh
+
+
+- name: Установить и запустить nginx
+  hosts: web
+  become: true
+  tasks:
+    - name: Установить nginx
+      apt:
+        name: nginx
+        state: present
+    - name: Запустить nginx
+      service:
+        name: nginx
+        state: started
+        enabled: true

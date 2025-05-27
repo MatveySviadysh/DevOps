@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: node_web
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app                # Монтируем текущую директорию в /app контейнера
+      - /app/node_modules     # Исключаем node_modules с хоста (антипаттерн, но часто используемый в dev)
+    working_dir: /app
+    command: npm start
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Персистентное хранилище данных
+
+volumes:
+  pgdata:   # Название volume, создастся автоматически
